@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Ajay Radadiya</title>
+    <link rel="stylesheet" href="styles.css?Asdadads">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Ajay Radadiya</h1>
+                <h2>Full Stack Developer</h2>
+                <p>Email: silverplugins217@gmail.com | Location: India | +917405432608 | www.linkedin.com/in/ajay-radadiya-191618ba</p>
+            </div>
+        </header>
+        
+        <section class="section">
+            <h2>Professional Summary</h2>
+            <p>I have 9 years of experience working as a PHP Developer on websites and have developed, designed, developed, and maintained a wide range web-based applications on Windows platforms, using Wordpress, Ajax, Laravel, Python, jQuery, Digital Ocean and APIs.</p>
+        </section>
+        
+        <section class="section">
+            <h2>Skills</h2>
+            <ul class="skills-list">
+                <li>PHP</li>
+                <li>Wordpress</li>
+                <li>Laravel</li>
+                <li>Node.js</li>
+                <li>React.js</li>
+                <li>Python</li>
+                <li>MySQL</li>
+                <li>JavaScript</li>
+                <li>HTML & CSS</li>
+                <li>Git & GitHub</li>
+                <li>RESTful APIs</li>
+                <li>Shopify</li>
+            </ul>
+        </section>
+        
+        <section class="section portfolio">
+            <h2>Portfolio</h2>
+            <div class="tabs">
+                <!-- Tabs will be dynamically generated -->
+            </div>
+
+            <div class="tab-content">
+                <!-- Tab content will be dynamically generated -->
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>Experience</h2>
+            <div class="job">
+                <h3>Freelancer</h3>
+                <h4>March 2017 – Present</h4>
+                <ul>
+                    <li>React and Worpress Gutenberg blocks Created</li>
+                    <li>Ubuntu server Setup with ssl</li>
+                    <li>Customization in Wordpress theme and Plugin</li>
+                </ul>
+            </div>
+            <div class="job">
+                <h3>Php Developer | 3Star Infotech, Surat</h3>
+                <h4>May 2015 – February 2017</h4>
+                <ul>
+                    <li>Handled the Woocommerce Api for the mobile and web teams</li>
+                    <li>Worked on escort application with build wordpress api.</li>
+                    <li>Contact Form 7 and Woocommerce For Build Addon Plugin</li>
+                </ul>
+            </div>
+            <div class="job">
+                <h3>Junior Web Developer | Raksh Infortech, Surat</h3>
+                <h4>December 2014 – April 2015</h4>
+                <ul>
+                    <li>Implement project in laravel with Bootstrap, AJAX, Javascript.</li>
+                    <li>Wordpress Plugin Customize</li>
+                    <li>Assisted with bill php appliation</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>Education</h2>
+            <div class="education">
+                <h3>Bachelor of Computer Science</h3>
+                <h4>Veer Narmad South Gujarat University | 2011 - 2013</h4>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <div id="modal-images" class="modal-images"></div>
+            <a id="modal-link" href="#" target="_blank" class="modal-link">Visit Project</a>
+        </div>
+    </div>
+
+    
+<script>
+    // Predefined project data as JSON
+    const projectData = {
+        wordpress: [
+            {
+                id: "emve",
+                title: "emve.ro",
+                description: "Its multi Vendor woocommerce website",
+                images: ["img/emve/emve1.png"],
+                link: "https://emve.ro/"
+            }
+        ]
+    };
+
+    // Dynamically populate tabs and projects
+    const tabsContainer = document.querySelector(".tabs");
+    const tabContentContainer = document.querySelector(".tab-content");
+
+    Object.keys(projectData).forEach((tech, index) => {
+        // Create tab button
+        const tabButton = document.createElement("button");
+        tabButton.classList.add("tab-btn");
+        if (index === 0) tabButton.classList.add("active"); // Mark first tab as active
+        tabButton.setAttribute("data-tab", tech);
+        tabButton.textContent = tech.charAt(0).toUpperCase() + tech.slice(1);
+        tabsContainer.appendChild(tabButton);
+
+        // Create tab content pane
+        const tabPane = document.createElement("div");
+        tabPane.classList.add("tab-pane");
+        if (index === 0) tabPane.classList.add("active"); // Mark first pane as active
+        tabPane.id = tech;
+
+        projectData[tech].forEach((project) => {
+            const projectDiv = document.createElement("div");
+            projectDiv.classList.add("project");
+            projectDiv.setAttribute("onclick", `openModal('${project.id}')`);
+            projectDiv.innerHTML = `
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+            `;
+            tabPane.appendChild(projectDiv);
+        });
+
+        tabContentContainer.appendChild(tabPane);
+    });
+
+    // Tab functionality
+    const tabs = document.querySelectorAll(".tab-btn");
+    const tabPanes = document.querySelectorAll(".tab-pane");
+
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+
+            const targetTab = tab.getAttribute("data-tab");
+            tabPanes.forEach((pane) => {
+                pane.classList.remove("active");
+                if (pane.id === targetTab) {
+                    pane.classList.add("active");
+                }
+            });
+        });
+    });
+
+    // Modal functionality
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalDescription = document.getElementById("modal-description");
+    const modalImages = document.getElementById("modal-images");
+    const modalLink = document.getElementById("modal-link");
+
+    function openModal(projectId) {
+        let foundProject = null;
+
+        for (const [tech, projects] of Object.entries(projectData)) {
+            projects.forEach((project) => {
+                if (project.id === projectId) {
+                    foundProject = project;
+                }
+            });
+        }
+
+        if (foundProject) {
+            modalTitle.textContent = foundProject.title;
+            modalDescription.textContent = foundProject.description;
+
+            modalImages.innerHTML = "";
+            foundProject.images.forEach((image) => {
+                const img = document.createElement("img");
+                img.src = `${image}`;
+                modalImages.appendChild(img);
+            });
+
+            modalLink.href = foundProject.link;
+            modal.style.display = "flex";
+        }
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+    }
+</script>
+</body>
+</html>
